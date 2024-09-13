@@ -40,7 +40,7 @@ def program_execution():
         new_question.next_question()
 
     os.system('cls')
-    print(f"Final Score: {new_question.show_score()}")
+    print(f"\n\nYour final score: {new_question.show_score()}\n\n")
     
 
 program_execution()
