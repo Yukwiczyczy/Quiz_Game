@@ -1,39 +1,38 @@
-import os
-
-def the_logo():
-    print ("""
-
-  _______                              __      _          
- |__   __|                            / _|    | |         
-    | |_ __ _   _  ___    ___  _ __  | |_ __ _| |___  ___ 
-    | | '__| | | |/ _ \  / _ \| '__| |  _/ _` | / __|/ _ \\
-    | | |  | |_| |  __/ | (_) | |    | || (_| | \__ \  __/
-    |_|_|   \__,_|\___|  \___/|_|    |_| \__,_|_|___/\___|
-                                                          
-                                                          
-    """)
-
 class Quiz:
 
     def __init__(self, question_bank) -> None:
         self.question_roll_number = 0
         self.list = question_bank
+        self.score = 0
+        self.current_question = ""
+        self.correct_answer = ""
+
+    def has_question(self):
+        return self.question_roll_number < len(self.list)
 
 
     def next_question(self):
-        score = 0
+        current_question = self.list[self.question_roll_number]
+        self.question_roll_number += 1
+        answer = input(f"[Question no. {self.question_roll_number}] {current_question.question}: (True/False): ")
+        self.current_question = f"[Question no. {self.question_roll_number}] {current_question.question}:"
+        self.check_answer(answer, current_question.answer)
 
-        for index in range(len(self.list)):
-            os.system("cls")
-            the_logo()
-            print(f"\nScore: {score}")
 
-            current_question = self.list[index]
-            self.question_roll_number = index + 1
-            answer = input(f"[Question no. {self.question_roll_number}] {current_question.question} (True/False): ")
+    def check_answer(self, answer, correct_answer):
+        if answer.lower() == correct_answer.lower():
+            self.score += 1
+            self.correct_answer = ""
+        else:
+            self.correct_answer = correct_answer
 
-            # Check the correct answer
-            if answer.lower() == current_question.answer.lower():
-                score += 1
-            else:
-                print(f'Correct answer: {current_question.answer.lower()}')
+
+    def show_score(self):
+        return f"Score: {self.score}"
+    
+
+    def show_correct_answer(self):
+        if not self.correct_answer == "":
+            return f"{self.current_question} {self.correct_answer}"
+        else:
+            return ""
